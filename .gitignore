@@ -4,6 +4,7 @@
 *.tar
 *.rar
 *.log
+*.lnk
 .project
 .classpath
 .settings
