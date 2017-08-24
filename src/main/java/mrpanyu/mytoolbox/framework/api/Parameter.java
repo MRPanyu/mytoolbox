@@ -14,7 +14,7 @@ public class Parameter {
 	/** 参数具体描述 */
 	private String description = "";
 	/** 参数类型 */
-	private ParameterType type = ParameterType.NORMAL;
+	private ParameterType type = ParameterType.SIMPLE_TEXT;
 	/** 参数值 */
 	private String value = "";
 	/** 枚举值 */

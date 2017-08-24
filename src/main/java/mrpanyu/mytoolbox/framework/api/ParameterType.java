@@ -1,5 +1,5 @@
 package mrpanyu.mytoolbox.framework.api;
 
 public enum ParameterType {
-	NORMAL, ENUMERATION, FILE, DIRECTORY
+	SIMPLE_TEXT, MULTILINE_TEXT, ENUMERATION, FILE, DIRECTORY
 }

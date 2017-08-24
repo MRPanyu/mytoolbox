@@ -13,3 +13,4 @@
 03_randomCode: 随机号码生成（社会统一信用证号，组织机构证号，行政区划号，工商营业执照号）
 04_digest: MD5/SHA1等摘要计算工具
 05_digestCrack: 摘要（MD5/SHA1等）密码暴力反算工具
+06_escape: URL/XML/JS文本转义工具

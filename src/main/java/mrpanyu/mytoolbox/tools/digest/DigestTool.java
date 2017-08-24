@@ -31,7 +31,7 @@ public class DigestTool extends Tool {
 		addParameter(param);
 		param = new Parameter("value", "字符串值");
 		param.setDescription("要计算的字符串值");
-		param.setType(ParameterType.NORMAL);
+		param.setType(ParameterType.SIMPLE_TEXT);
 		addParameter(param);
 		param = new Parameter("file", "文件");
 		param.setDescription("要计算的文件");

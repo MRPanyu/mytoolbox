@@ -28,12 +28,14 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
 import javax.swing.filechooser.FileFilter;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 
 import mrpanyu.mytoolbox.framework.api.Action;
@@ -148,6 +150,25 @@ public class ToolPanel extends JPanel implements UserInterface {
 				});
 				panel.add(combo);
 				parameterComponentMap.put(parameter.getName(), combo);
+			} else if (parameter.getType() == ParameterType.MULTILINE_TEXT) {
+				final JTextArea text = new JTextArea();
+				text.setPreferredSize(new Dimension(0, 100));
+				JScrollPane scrollPane = new JScrollPane(text);
+				scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+				scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+				if (StringUtils.isNotBlank(parameter.getValue())) {
+					text.setText(parameter.getValue());
+				}
+				text.addFocusListener(new FocusAdapter() {
+					public void focusLost(FocusEvent e) {
+						if (!StringUtils.equals(parameter.getValue(), text.getText())) {
+							parameter.setValue(text.getText());
+							tool.onParameterValueChange(parameter.getName());
+						}
+					}
+				});
+				panel.add(scrollPane);
+				parameterComponentMap.put(parameter.getName(), text);
 			} else {
 				final JTextField text = new JTextField();
 				if (StringUtils.isNotBlank(parameter.getValue())) {
@@ -299,6 +320,9 @@ public class ToolPanel extends JPanel implements UserInterface {
 						combo.addItem(value);
 					}
 					combo.setSelectedItem(parameter.getValue());
+				} else if (component instanceof JTextArea) {
+					JTextArea text = (JTextArea) component;
+					text.setText(parameter.getValue());
 				} else if (component instanceof JTextField) {
 					JTextField text = (JTextField) component;
 					text.setText(parameter.getValue());
@@ -317,7 +341,8 @@ public class ToolPanel extends JPanel implements UserInterface {
 	private void writeMessage(final String message, final String color) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				String html = "<div style=\"color:" + color + ";white-space:nowrap;font-family:Consolas,monospace;\">" + message + "</div>";
+				String html = "<div style=\"color:" + color + ";white-space:nowrap;font-family:Consolas,monospace;\"><pre>"
+						+ StringEscapeUtils.escapeHtml(message) + "</pre></div>";
 				outputMessages.append(html);
 				textOutput.setText("<html><body>" + outputMessages.toString() + "<div/></body></html>");
 			}
