@@ -44,7 +44,7 @@ import mrpanyu.mytoolbox.framework.api.ParameterType;
 import mrpanyu.mytoolbox.framework.api.Tool;
 import mrpanyu.mytoolbox.framework.api.UserInterface;
 
-@SuppressWarnings("serial")
+@SuppressWarnings({ "serial", "rawtypes", "unchecked" })
 public class ToolPanel extends JPanel implements UserInterface {
 
 	private static int LINE_HEIGHT = 25;
@@ -298,6 +298,16 @@ public class ToolPanel extends JPanel implements UserInterface {
 		writeMessage(message, "red");
 	}
 
+	@Override
+	public void writeHtmlMessage(final String message) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				outputMessages.append(message);
+				textOutput.setText("<html><body>" + outputMessages.toString() + "<div/></body></html>");
+			}
+		});
+	}
+
 	public void clearMessages() {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -341,7 +351,8 @@ public class ToolPanel extends JPanel implements UserInterface {
 	private void writeMessage(final String message, final String color) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				String html = "<div style=\"color:" + color + ";white-space:nowrap;font-family:Consolas,monospace;\"><pre>"
+				String html = "<div style=\"color:" + color
+						+ ";white-space:nowrap;font-family:Consolas,monospace;\"><pre>"
 						+ StringEscapeUtils.escapeHtml(message) + "</pre></div>";
 				outputMessages.append(html);
 				textOutput.setText("<html><body>" + outputMessages.toString() + "<div/></body></html>");

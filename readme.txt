@@ -14,3 +14,5 @@
 04_digest: MD5/SHA1等摘要计算工具
 05_digestCrack: 摘要（MD5/SHA1等）密码暴力反算工具
 06_escape: URL/XML/JS文本转义工具
+07_qrcodereader: 二维码解析工具
+08_qrcodewriter: 二维码生成工具

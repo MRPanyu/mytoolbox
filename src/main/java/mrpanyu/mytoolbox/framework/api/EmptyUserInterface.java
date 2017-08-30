@@ -18,6 +18,11 @@ public class EmptyUserInterface implements UserInterface {
 	}
 
 	@Override
+	public void writeHtmlMessage(String message) {
+		System.out.println("[HTML] " + message);
+	}
+
+	@Override
 	public void clearMessages() {
 
 	}
