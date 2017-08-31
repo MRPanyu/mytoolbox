@@ -26,13 +26,11 @@ public class TextFileRemoveBomTool extends AbstractTextFileTool {
 	protected void performActionOnFile(String actionName, File inputFile, File outputFile) throws Exception {
 		if ("removeBom".equals(actionName)) {
 			byte[] data = FileUtils.readFileToByteArray(inputFile);
-			if (data.length >= 3) {
-				if (data[0] == (byte) 0xEF && data[1] == (byte) 0xBB && data[2] == (byte) 0xBF) {
-					getUserInterface().writeInfoMessage("处理文件：" + inputFile.getCanonicalPath());
-					byte[] newData = new byte[data.length - 3];
-					System.arraycopy(data, 3, newData, 0, newData.length);
-					FileUtils.writeByteArrayToFile(outputFile, newData);
-				}
+			if (data.length >= 3 && (data[0] == (byte) 0xEF && data[1] == (byte) 0xBB && data[2] == (byte) 0xBF)) {
+				getUserInterface().writeInfoMessage("处理文件：" + inputFile.getCanonicalPath());
+				byte[] newData = new byte[data.length - 3];
+				System.arraycopy(data, 3, newData, 0, newData.length);
+				FileUtils.writeByteArrayToFile(outputFile, newData);
 			}
 		}
 	}

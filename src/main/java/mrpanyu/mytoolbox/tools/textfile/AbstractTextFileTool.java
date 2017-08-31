@@ -32,11 +32,11 @@ public abstract class AbstractTextFileTool extends Tool {
 		param.setDescription("输出目标文件夹，如果同源文件夹，则转换后内容直接覆盖");
 		param.setType(ParameterType.DIRECTORY);
 		addParameter(param);
-		param = new Parameter("includeFilters", "过滤条件（包含）");
-		param.setDescription("包含哪些文件的过滤条件，每行一个或分号分隔，支持通配符如*.java，以斜杠开头的支持ant式路径表达式，如/dir1/**");
+		param = new Parameter("includeFilters", "过滤条件-包含");
+		param.setDescription("包含哪些文件的过滤条件，每行一个或分号分隔，支持通配符如*.java，以斜杠开头的支持ant式路径表达式，如/dir1/**，留空表示包含所有文件");
 		param.setType(ParameterType.MULTILINE_TEXT);
 		addParameter(param);
-		param = new Parameter("excludeFilters", "过滤条件（排除）");
+		param = new Parameter("excludeFilters", "过滤条件-排除");
 		param.setDescription("包含哪些文件的过滤条件，每行一个或分号分隔，支持通配符如*.java，以斜杠开头的支持ant式路径表达式，如/dir1/**");
 		param.setType(ParameterType.MULTILINE_TEXT);
 		param.setValue("*.jpg;*.png;*.gif\n*.zip;*.jar;*.class\n.svn;.git");
@@ -64,7 +64,7 @@ public abstract class AbstractTextFileTool extends Tool {
 			return;
 		}
 		File fTargetFolder = new File(targetFolder);
-		if (fTargetFolder.isDirectory()) {
+		if (!fTargetFolder.isDirectory()) {
 			if (!fTargetFolder.mkdirs()) {
 				getUserInterface().writeErrorMessage("指定的目标文件夹不存在且创建失败");
 				return;

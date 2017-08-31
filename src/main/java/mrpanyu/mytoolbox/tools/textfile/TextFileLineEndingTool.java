@@ -12,8 +12,8 @@ import mrpanyu.mytoolbox.framework.api.ParameterType;
 
 public class TextFileLineEndingTool extends AbstractTextFileTool {
 
-	public static final String OPTION_LINE_ENDING_UNIX = "Unix/Linux格式（LF）（\\n）";
-	public static final String OPTION_LINE_ENDING_WINDOWS = "Windows格式（CRLF）（\\r\\n）";
+	public static final String OPTION_LINE_ENDING_UNIX = "Unix/Linux格式 (LF) (\\n)";
+	public static final String OPTION_LINE_ENDING_WINDOWS = "Windows格式 (CRLF) (\\r\\n)";
 
 	@Override
 	public void initialize() {
