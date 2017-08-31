@@ -152,9 +152,9 @@ public class ToolPanel extends JPanel implements UserInterface {
 				parameterComponentMap.put(parameter.getName(), combo);
 			} else if (parameter.getType() == ParameterType.MULTILINE_TEXT) {
 				final JTextArea text = new JTextArea();
-				text.setPreferredSize(new Dimension(0, 100));
 				text.setTabSize(4);
 				JScrollPane scrollPane = new JScrollPane(text);
+				scrollPane.setPreferredSize(new Dimension(0, 100));
 				scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 				scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 				if (StringUtils.isNotBlank(parameter.getValue())) {
