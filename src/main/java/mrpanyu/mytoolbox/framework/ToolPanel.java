@@ -11,7 +11,6 @@ import java.awt.event.FocusEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.File;
-import java.io.InputStream;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,7 +35,6 @@ import javax.swing.filechooser.FileFilter;
 import javax.swing.text.Element;
 import javax.swing.text.html.HTMLDocument;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 
@@ -223,23 +221,14 @@ public class ToolPanel extends JPanel implements UserInterface {
 		}
 
 		// initialize help
-		InputStream insHelp = tool.getClass().getResourceAsStream(tool.getClass().getSimpleName() + ".html");
-		if (insHelp != null) {
-			try {
-				helpContent = IOUtils.toString(insHelp, "UTF-8");
-				JButton buttonHelp = new JButton(iconHelp);
-				buttonHelp.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						showHelp();
-					}
-				});
-				panel.add(buttonHelp);
-			} catch (Exception e) {
-				e.printStackTrace();
-			} finally {
-				IOUtils.closeQuietly(insHelp);
+		helpContent = HelpBuilder.buildHelp(tool);
+		JButton buttonHelp = new JButton(iconHelp);
+		buttonHelp.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				showHelp();
 			}
-		}
+		});
+		panel.add(buttonHelp);
 
 		// initialize output text
 		panel = new JPanel();
