@@ -33,6 +33,8 @@ import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
 import javax.swing.filechooser.FileFilter;
+import javax.swing.text.Element;
+import javax.swing.text.html.HTMLDocument;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringEscapeUtils;
@@ -248,6 +250,7 @@ public class ToolPanel extends JPanel implements UserInterface {
 		textOutput.setEditable(false);
 		textOutput.setContentType("text/html");
 		textOutput.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
+		textOutput.setText("<html><body id='body'></body></html>");
 		JScrollPane scrollPane = new JScrollPane(textOutput);
 		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -303,8 +306,14 @@ public class ToolPanel extends JPanel implements UserInterface {
 	public void writeHtmlMessage(final String message) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
+				try {
+					HTMLDocument doc = (HTMLDocument) textOutput.getDocument();
+					Element body = doc.getElement("body");
+					doc.insertBeforeStart(body.getElement(body.getElementCount() - 1), message);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 				outputMessages.append(message);
-				textOutput.setText("<html><body>" + outputMessages.toString() + "<div/></body></html>");
 			}
 		});
 	}
@@ -313,7 +322,7 @@ public class ToolPanel extends JPanel implements UserInterface {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				outputMessages = new StringBuilder();
-				textOutput.setText("<html><body>" + outputMessages.toString() + "<div/></body></html>");
+				textOutput.setText("<html><body id='body'></body></html>");
 			}
 		});
 	}
@@ -352,13 +361,18 @@ public class ToolPanel extends JPanel implements UserInterface {
 	private void writeMessage(final String message, final String color) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				String html = "<div style=\"color:" + color
-						+ ";white-space:nowrap;font-family:Consolas,monospace;\"><div>"
-						+ StringEscapeUtils.escapeHtml(message).replace("\r\n", "\n").replace("\n", "</div><div>")
-								.replace("\t", "    ").replace(" ", "&nbsp;")
-						+ "</div></div>";
+				String divStart = "<div style=\"color:" + color
+						+ ";white-space:nowrap;font-family:Consolas,monospace;\">";
+				String html = divStart + StringEscapeUtils.escapeHtml(message).replace("\r\n", "\n")
+						.replace("\n", "</div>" + divStart).replace("\t", "    ").replace(" ", "&nbsp;") + "</div>";
+				try {
+					HTMLDocument doc = (HTMLDocument) textOutput.getDocument();
+					Element body = doc.getElement("body");
+					doc.insertBeforeStart(body.getElement(body.getElementCount() - 1), html);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 				outputMessages.append(html);
-				textOutput.setText("<html><body>" + outputMessages.toString() + "<div/></body></html>");
 			}
 		});
 	}
