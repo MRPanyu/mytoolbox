@@ -153,6 +153,7 @@ public class ToolPanel extends JPanel implements UserInterface {
 			} else if (parameter.getType() == ParameterType.MULTILINE_TEXT) {
 				final JTextArea text = new JTextArea();
 				text.setPreferredSize(new Dimension(0, 100));
+				text.setTabSize(4);
 				JScrollPane scrollPane = new JScrollPane(text);
 				scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 				scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -352,8 +353,10 @@ public class ToolPanel extends JPanel implements UserInterface {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				String html = "<div style=\"color:" + color
-						+ ";white-space:nowrap;font-family:Consolas,monospace;\"><pre>"
-						+ StringEscapeUtils.escapeHtml(message) + "</pre></div>";
+						+ ";white-space:nowrap;font-family:Consolas,monospace;\"><div>"
+						+ StringEscapeUtils.escapeHtml(message).replace("\r\n", "\n").replace("\n", "</div><div>")
+								.replace("\t", "    ").replace(" ", "&nbsp;")
+						+ "</div></div>";
 				outputMessages.append(html);
 				textOutput.setText("<html><body>" + outputMessages.toString() + "<div/></body></html>");
 			}
