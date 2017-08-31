@@ -70,9 +70,9 @@ public class DigestCrackTool extends Tool {
 	@Override
 	public void initialize() {
 		// 初始化配置
-		setName("05_digestCrack");
-		setDisplayName("摘要密码暴力反算");
-		setDescription("暴力破解MD5/SHA-1摘要后的密码，获取原密码");
+		setName("0402_digestCrack");
+		setDisplayName("摘要：摘要密码暴力反算");
+		setDescription("暴力反算MD5/SHA-1摘要后的密码，获取原密码");
 		setEnableProfile(false);
 		// 初始化参数
 		Parameter param = new Parameter("type", "密码类型");

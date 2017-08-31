@@ -24,8 +24,8 @@ public class PackagerTool extends Tool {
 	@Override
 	public void initialize() {
 		// 初始化配置
-		setName("00_packager");
-		setDisplayName("增量打包");
+		setName("0001_packager");
+		setDisplayName("打包：增量打包");
 		setDescription("");
 		setEnableProfile(true);
 		// 初始化参数

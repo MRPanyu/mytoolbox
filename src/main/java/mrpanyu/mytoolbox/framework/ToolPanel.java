@@ -221,7 +221,7 @@ public class ToolPanel extends JPanel implements UserInterface {
 		}
 
 		// initialize help
-		InputStream insHelp = tool.getClass().getResourceAsStream("help.html");
+		InputStream insHelp = tool.getClass().getResourceAsStream(tool.getClass().getSimpleName() + ".html");
 		if (insHelp != null) {
 			try {
 				helpContent = IOUtils.toString(insHelp, "UTF-8");

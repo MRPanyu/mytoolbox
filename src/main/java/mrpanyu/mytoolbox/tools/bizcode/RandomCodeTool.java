@@ -1,4 +1,4 @@
-package mrpanyu.mytoolbox.tools.randomcode;
+package mrpanyu.mytoolbox.tools.bizcode;
 
 import java.util.Arrays;
 import java.util.Random;
@@ -13,9 +13,9 @@ public class RandomCodeTool extends Tool {
 	@Override
 	public void initialize() {
 		// 初始化配置
-		setName("03_randomCode");
-		setDisplayName("随机号码生成");
-		setDescription("生成一些随机号码，如社会信用证号，工商营业执照号等");
+		setName("0302_randomCode");
+		setDisplayName("证件号：随机证件号生成");
+		setDescription("生成一些符合校验规则的随机证件号，如社会统一信用证号，组织机构证号，工商营业执照号等");
 		setEnableProfile(false);
 		// 初始化参数
 		Parameter param = new Parameter("type", "号码类型");

@@ -18,8 +18,8 @@ public class DigestTool extends Tool {
 	@Override
 	public void initialize() {
 		// 初始化配置
-		setName("04_digest");
-		setDisplayName("摘要值计算");
+		setName("0401_digest");
+		setDisplayName("摘要：摘要值计算");
 		setDescription("计算MD5，SHA-1等摘要值");
 		setEnableProfile(false);
 		// 初始化参数

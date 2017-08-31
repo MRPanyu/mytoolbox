@@ -16,8 +16,8 @@ public class EscapeTool extends Tool {
 	@Override
 	public void initialize() {
 		// 初始化配置
-		setName("06_escape");
-		setDisplayName("URL/XML/JS文本转义");
+		setName("0201_escape");
+		setDisplayName("转义：URL/XML/JS文本转义");
 		setDescription("URL/XML/JS文本转义工具，支持Escape和Unescape");
 		setEnableProfile(false);
 		// 初始化参数

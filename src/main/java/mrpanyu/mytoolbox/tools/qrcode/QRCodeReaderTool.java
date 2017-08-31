@@ -30,8 +30,8 @@ public class QRCodeReaderTool extends Tool {
 	@Override
 	public void initialize() {
 		// 初始化配置
-		setName("07_qrcodereader");
-		setDisplayName("二维码解析");
+		setName("0501_qrcodereader");
+		setDisplayName("二维码：二维码解析");
 		setDescription("二维码解析工具");
 		setEnableProfile(false);
 		// 初始化参数

@@ -2,6 +2,7 @@ package mrpanyu.mytoolbox.framework;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -39,6 +40,9 @@ public class MyToolBox extends JFrame {
 		Set<Class<?>> toolClasses = FindClassesUtils.findClassesByBaseClass("mrpanyu.mytoolbox.tools", true,
 				Tool.class);
 		for (Class<?> cls : toolClasses) {
+			if (Modifier.isAbstract(cls.getModifiers())) {
+				continue;
+			}
 			Tool tool = (Tool) cls.newInstance();
 			tool.initialize();
 			tools.add(tool);

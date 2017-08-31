@@ -1,4 +1,4 @@
-package mrpanyu.mytoolbox.tools.idnumber;
+package mrpanyu.mytoolbox.tools.bizcode;
 
 import mrpanyu.mytoolbox.framework.api.Action;
 import mrpanyu.mytoolbox.framework.api.Parameter;
@@ -9,8 +9,8 @@ public class IdNumberTool extends Tool {
 	@Override
 	public void initialize() {
 		// 初始化配置
-		setName("02_idNumber");
-		setDisplayName("身份证号修正");
+		setName("0301_idNumber");
+		setDisplayName("证件号：身份证号修正");
 		setDescription("");
 		setEnableProfile(false);
 		// 初始化参数

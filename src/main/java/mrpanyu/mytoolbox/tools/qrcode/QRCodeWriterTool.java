@@ -22,8 +22,8 @@ public class QRCodeWriterTool extends Tool {
 	@Override
 	public void initialize() {
 		// 初始化配置
-		setName("08_qrcodewriter");
-		setDisplayName("二维码生成");
+		setName("0502_qrcodewriter");
+		setDisplayName("二维码：二维码生成");
 		setDescription("二维码生成工具");
 		setEnableProfile(false);
 		// 初始化参数
