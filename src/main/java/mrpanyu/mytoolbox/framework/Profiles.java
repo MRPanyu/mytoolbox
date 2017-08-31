@@ -56,15 +56,21 @@ public class Profiles {
 			}
 			List<String> lines = FileUtils.readLines(f, "UTF-8");
 			Profile profile = null;
+			String lastParamName = null;
 			for (String line : lines) {
 				if (StringUtils.isNotBlank(line)) {
 					if (line.startsWith("[")) {
 						String name = StringUtils.substringBetween(line, "[", "]");
 						profile = new Profile(name);
 						profiles.put(name, profile);
+					} else if (line.startsWith("\t")) {
+						String value = profile.getParameterValues().get(lastParamName);
+						value = value + "\n" + line.substring(1);
+						profile.getParameterValues().put(lastParamName, value);
 					} else {
 						String[] arr = line.split("=", 2);
 						profile.getParameterValues().put(arr[0], arr[1]);
+						lastParamName = arr[0];
 					}
 				}
 			}
@@ -81,7 +87,7 @@ public class Profiles {
 			Profile profile = entry.getValue();
 			lines.add("[" + name + "]");
 			for (Map.Entry<String, String> e : profile.getParameterValues().entrySet()) {
-				lines.add(e.getKey() + "=" + e.getValue());
+				lines.add(e.getKey() + "=" + e.getValue().replace("\n", "\n\t"));
 			}
 			lines.add("");
 		}
