@@ -4,6 +4,7 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.Arrays;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.StringEscapeUtils;
 
 import mrpanyu.mytoolbox.framework.api.Action;
@@ -17,15 +18,15 @@ public class EscapeTool extends Tool {
 	public void initialize() {
 		// 初始化配置
 		setName("0201_escape");
-		setDisplayName("转义：URL/XML/JS文本转义");
-		setDescription("URL/XML/JS文本转义工具，支持Escape和Unescape");
+		setDisplayName("转义：URL/XML/JS/Base64文本转义");
+		setDescription("URL/XML/JS/Base64文本转义工具，支持Escape和Unescape");
 		setEnableProfile(false);
 		// 初始化参数
 		Parameter param = new Parameter("type", "转义类型");
 		param.setDescription("转义类型");
 		param.setType(ParameterType.ENUMERATION);
 		param.setEnumerationValues(Arrays.asList("URLEncode", "URLDecode", "EscapeXML", "UnescapeXML",
-				"EscapeJavaScript", "UnescapeJavaScript"));
+				"EscapeJavaScript", "UnescapeJavaScript", "Base64Encode", "Base64Decode"));
 		param.setValue("URLEncode");
 		addParameter(param);
 		param = new Parameter("value", "原值");
@@ -56,6 +57,10 @@ public class EscapeTool extends Tool {
 					escapeValue = StringEscapeUtils.escapeJavaScript(value);
 				} else if ("UnescapeJavaScript".equals(type)) {
 					escapeValue = StringEscapeUtils.unescapeJavaScript(value);
+				} else if ("Base64Encode".equals(type)) {
+					escapeValue = Base64.encodeBase64String(value.getBytes("UTF-8"));
+				} else if ("Base64Decode".equals(type)) {
+					escapeValue = new String(Base64.decodeBase64(value), "UTF-8");
 				}
 				getUserInterface().writeInfoMessage(escapeValue);
 			} catch (Exception e) {
