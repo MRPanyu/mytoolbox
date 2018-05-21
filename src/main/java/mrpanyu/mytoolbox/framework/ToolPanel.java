@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
@@ -47,8 +49,8 @@ import mrpanyu.mytoolbox.framework.api.UserInterface;
 @SuppressWarnings({ "serial", "rawtypes", "unchecked" })
 public class ToolPanel extends JPanel implements UserInterface {
 
-	private static int LINE_HEIGHT = 25;
-	private static int LABEL_WIDTH = 100;
+	private static int LINE_HEIGHT = (int) (25 * MyToolBox.VIEW_SCALE);
+	private static int LABEL_WIDTH = (int) (100 * MyToolBox.VIEW_SCALE);
 
 	private ImageIcon iconFolder = new ImageIcon(this.getClass().getResource("images/folder.png"));
 	private ImageIcon iconFloppy = new ImageIcon(this.getClass().getResource("images/floppy.png"));
@@ -71,12 +73,21 @@ public class ToolPanel extends JPanel implements UserInterface {
 	}
 
 	public void initialize() {
+		int imageSize = (int) (16 * MyToolBox.VIEW_SCALE);
+		iconFolder.setImage(iconFolder.getImage().getScaledInstance(imageSize, imageSize, Image.SCALE_SMOOTH));
+		iconFloppy.setImage(iconFloppy.getImage().getScaledInstance(imageSize, imageSize, Image.SCALE_SMOOTH));
+		iconTrash.setImage(iconTrash.getImage().getScaledInstance(imageSize, imageSize, Image.SCALE_SMOOTH));
+		iconHelp.setImage(iconHelp.getImage().getScaledInstance(imageSize, imageSize, Image.SCALE_SMOOTH));
+
 		// basic setting
 		this.setLayout(new BorderLayout());
 		this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		JPanel panelTop = new JPanel();
 		panelTop.setLayout(new BoxLayout(panelTop, BoxLayout.Y_AXIS));
 		this.add(panelTop, BorderLayout.NORTH);
+
+		Font normalFont = new Font("", 0, (int) (13 * MyToolBox.VIEW_SCALE));
+		Font boldFont = new Font("", Font.BOLD, (int) (13 * MyToolBox.VIEW_SCALE));
 
 		// initialize profile
 		if (tool.isEnableProfile()) {
@@ -86,10 +97,12 @@ public class ToolPanel extends JPanel implements UserInterface {
 			BoxLayout layout = new BoxLayout(panel, BoxLayout.X_AXIS);
 			panel.setLayout(layout);
 			JLabel label = new JLabel("预设方案: ");
+			label.setFont(boldFont);
 			label.setHorizontalAlignment(SwingConstants.RIGHT);
 			label.setPreferredSize(new Dimension(LABEL_WIDTH, LINE_HEIGHT));
 			panel.add(label);
 			comboProfiles = new JComboBox();
+			comboProfiles.setFont(normalFont);
 			comboProfiles.addItemListener(new ItemListener() {
 				public void itemStateChanged(ItemEvent e) {
 					if (e.getStateChange() == ItemEvent.SELECTED) {
@@ -99,6 +112,7 @@ public class ToolPanel extends JPanel implements UserInterface {
 			});
 			panel.add(comboProfiles);
 			JButton button = new JButton(iconFloppy);
+			button.setFont(boldFont);
 			button.setPreferredSize(new Dimension(LINE_HEIGHT, LINE_HEIGHT));
 			button.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -107,6 +121,7 @@ public class ToolPanel extends JPanel implements UserInterface {
 			});
 			panel.add(button);
 			button = new JButton(iconTrash);
+			button.setFont(boldFont);
 			button.setPreferredSize(new Dimension(LINE_HEIGHT, LINE_HEIGHT));
 			button.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -129,11 +144,13 @@ public class ToolPanel extends JPanel implements UserInterface {
 			if (StringUtils.isNotBlank(parameter.getDescription())) {
 				label.setToolTipText(parameter.getDescription());
 			}
+			label.setFont(boldFont);
 			label.setHorizontalAlignment(SwingConstants.RIGHT);
 			label.setPreferredSize(new Dimension(LABEL_WIDTH, LINE_HEIGHT));
 			panel.add(label);
 			if (parameter.getType() == ParameterType.ENUMERATION) {
 				final JComboBox combo = new JComboBox();
+				combo.setFont(normalFont);
 				for (String value : parameter.getEnumerationValues()) {
 					combo.addItem(value);
 				}
@@ -152,6 +169,7 @@ public class ToolPanel extends JPanel implements UserInterface {
 				parameterComponentMap.put(parameter.getName(), combo);
 			} else if (parameter.getType() == ParameterType.MULTILINE_TEXT) {
 				final JTextArea text = new JTextArea();
+				text.setFont(normalFont);
 				text.setTabSize(4);
 				JScrollPane scrollPane = new JScrollPane(text);
 				scrollPane.setPreferredSize(new Dimension(0, 100));
@@ -172,6 +190,7 @@ public class ToolPanel extends JPanel implements UserInterface {
 				parameterComponentMap.put(parameter.getName(), text);
 			} else {
 				final JTextField text = new JTextField();
+				text.setFont(normalFont);
 				if (StringUtils.isNotBlank(parameter.getValue())) {
 					text.setText(parameter.getValue());
 				}
@@ -207,6 +226,7 @@ public class ToolPanel extends JPanel implements UserInterface {
 		for (Action a : tool.getActions()) {
 			final Action action = a;
 			final JButton button = new JButton(action.getDisplayName());
+			button.setFont(boldFont);
 			button.setToolTipText(action.getDescription());
 			button.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -223,6 +243,7 @@ public class ToolPanel extends JPanel implements UserInterface {
 		// initialize help
 		helpContent = HelpBuilder.buildHelp(tool);
 		JButton buttonHelp = new JButton(iconHelp);
+		buttonHelp.setFont(boldFont);
 		buttonHelp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				showHelp();
@@ -350,8 +371,9 @@ public class ToolPanel extends JPanel implements UserInterface {
 	private void writeMessage(final String message, final String color) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
+				int fontSize = (int) (13 * MyToolBox.VIEW_SCALE);
 				String divStart = "<div style=\"color:" + color
-						+ ";white-space:nowrap;font-family:Consolas,monospace;\">";
+						+ ";white-space:nowrap;font-family:Consolas,monospace;font-size:" + fontSize + "px\">";
 				String html = divStart + StringEscapeUtils.escapeHtml(message).replace("\r\n", "\n")
 						.replace("\n", "</div>" + divStart).replace("\t", "    ").replace(" ", "&nbsp;") + "</div>";
 				try {
@@ -429,7 +451,9 @@ public class ToolPanel extends JPanel implements UserInterface {
 		textHelp.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
 		textHelp.setText(helpContent);
 		JScrollPane scrollPane = new JScrollPane(textHelp);
-		scrollPane.setPreferredSize(new Dimension(800, 600));
+		int width = (int) (800 * MyToolBox.VIEW_SCALE);
+		int height = (int) (600 * MyToolBox.VIEW_SCALE);
+		scrollPane.setPreferredSize(new Dimension(width, height));
 		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		frameHelp.getContentPane().add(scrollPane, BorderLayout.CENTER);
