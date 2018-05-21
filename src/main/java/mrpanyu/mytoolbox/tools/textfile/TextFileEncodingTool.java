@@ -36,11 +36,6 @@ public class TextFileEncodingTool extends AbstractTextFileTool {
 	}
 
 	@Override
-	protected boolean checkParameters() {
-		return true;
-	}
-
-	@Override
 	protected void performActionOnFile(String actionName, File inputFile, File outputFile) throws Exception {
 		if ("transform".equals(actionName)) {
 			String srcEncoding = getParameter("srcEncoding").getValue();

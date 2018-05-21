@@ -19,6 +19,17 @@ import mrpanyu.mytoolbox.framework.utils.AntPathMatcher;
  */
 public abstract class AbstractTextFileTool extends Tool {
 
+	/** 是否处理文件后输出 */
+	protected boolean doOutput = true;
+
+	public boolean isDoOutput() {
+		return doOutput;
+	}
+
+	public void setDoOutput(boolean doOutput) {
+		this.doOutput = doOutput;
+	}
+
 	@Override
 	public void initialize() {
 		// 批量文本处理工具基本都需要预设方案功能
@@ -28,10 +39,12 @@ public abstract class AbstractTextFileTool extends Tool {
 		param.setDescription("文件来源文件夹");
 		param.setType(ParameterType.DIRECTORY);
 		addParameter(param);
-		param = new Parameter("targetFolder", "目标文件夹");
-		param.setDescription("输出目标文件夹，如果同源文件夹，则转换后内容直接覆盖");
-		param.setType(ParameterType.DIRECTORY);
-		addParameter(param);
+		if (doOutput) {
+			param = new Parameter("targetFolder", "目标文件夹");
+			param.setDescription("输出目标文件夹，如果同源文件夹，则转换后内容直接覆盖");
+			param.setType(ParameterType.DIRECTORY);
+			addParameter(param);
+		}
 		param = new Parameter("includeFilters", "过滤条件-包含");
 		param.setDescription("包含哪些文件的过滤条件，每行一个或分号分隔，支持通配符如*.java，以斜杠开头的支持ant式路径表达式，如/dir1/**，留空表示包含所有文件");
 		param.setType(ParameterType.MULTILINE_TEXT);
@@ -49,7 +62,10 @@ public abstract class AbstractTextFileTool extends Tool {
 	@Override
 	public void performAction(String actionName) {
 		String srcFolder = getParameter("srcFolder").getValue();
-		String targetFolder = getParameter("targetFolder").getValue();
+		String targetFolder = null;
+		if (doOutput) {
+			targetFolder = getParameter("targetFolder").getValue();
+		}
 		if (StringUtils.isBlank(srcFolder)) {
 			getUserInterface().writeErrorMessage("请选择源文件夹");
 			return;
@@ -59,23 +75,31 @@ public abstract class AbstractTextFileTool extends Tool {
 			getUserInterface().writeErrorMessage("指定的源文件夹不存在或不是目录");
 			return;
 		}
-		if (StringUtils.isBlank(targetFolder)) {
-			getUserInterface().writeErrorMessage("请选择目标文件夹");
-			return;
-		}
-		File fTargetFolder = new File(targetFolder);
-		if (!fTargetFolder.isDirectory()) {
-			if (!fTargetFolder.mkdirs()) {
-				getUserInterface().writeErrorMessage("指定的目标文件夹不存在且创建失败");
+		File fTargetFolder = null;
+		if (doOutput) {
+			if (StringUtils.isBlank(targetFolder)) {
+				getUserInterface().writeErrorMessage("请选择目标文件夹");
 				return;
 			}
+			fTargetFolder = new File(targetFolder);
+			if (!fTargetFolder.isDirectory()) {
+				if (!fTargetFolder.mkdirs()) {
+					getUserInterface().writeErrorMessage("指定的目标文件夹不存在且创建失败");
+					return;
+				}
+			}
+		}
+		if (!checkParameters()) {
+			return;
 		}
 		String includeFilters = getParameter("includeFilters").getValue();
 		String excludeFilters = getParameter("excludeFilters").getValue();
 		List<String> lIncludeFilters = getFiltersAsList(includeFilters);
 		List<String> lExcludeFilters = getFiltersAsList(excludeFilters);
 		try {
+			performActionBefore(actionName);
 			searchFile(actionName, fSrcFolder, fTargetFolder, lIncludeFilters, lExcludeFilters);
+			performActionAfter(actionName);
 		} catch (Exception e) {
 			e.printStackTrace();
 			getUserInterface().writeErrorMessage("发生异常：" + e.getClass() + ": " + e.getMessage());
@@ -84,7 +108,7 @@ public abstract class AbstractTextFileTool extends Tool {
 
 	@Override
 	public void onParameterValueChange(String name) {
-		if ("srcFolder".equals(name)) {
+		if (doOutput && "srcFolder".equals(name)) {
 			String srcFolder = getParameter("srcFolder").getValue();
 			getParameter("targetFolder").setValue(srcFolder);
 			getUserInterface().refreshParameterValue("targetFolder");
@@ -92,7 +116,17 @@ public abstract class AbstractTextFileTool extends Tool {
 	}
 
 	/** 工具本身提供的参数校验方法，如果返回false则不再执行操作 */
-	protected abstract boolean checkParameters();
+	protected boolean checkParameters() {
+		return true;
+	}
+
+	/** 整体处理前执行，默认为空实现可重写 */
+	protected void performActionBefore(String actionName) throws Exception {
+	}
+
+	/** 整体处理后执行，默认为空实现可重写 */
+	protected void performActionAfter(String actionName) throws Exception {
+	}
 
 	/** 工具本身对单个文件处理的方法 */
 	protected abstract void performActionOnFile(String actionName, File inputFile, File outputFile) throws Exception;
@@ -130,7 +164,10 @@ public abstract class AbstractTextFileTool extends Tool {
 				searchFileRec(actionName, sub, fSrcFolder, fTargetFolder, lIncludeFilters, lExcludeFilters);
 			}
 		} else {
-			File outputFile = new File(fTargetFolder, relativePath);
+			File outputFile = null;
+			if (fTargetFolder != null) {
+				outputFile = new File(fTargetFolder, relativePath);
+			}
 			performActionOnFile(actionName, f, outputFile);
 		}
 	}

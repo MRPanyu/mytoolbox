@@ -21,6 +21,9 @@
 	
 0103_textFileRemoveBom: 文本处理：去除BOM
 	对某个目录下的文件进行批量去除BOM
+	
+0104_textFileLineCount: 文本处理：统计行数
+	对某个目录下的文件进行行数统计
 
 0201_escape: 转义：URL/XML/JS文本转义
 	进行URL/XML/JS的转义/反转义

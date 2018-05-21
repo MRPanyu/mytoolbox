@@ -18,11 +18,6 @@ public class TextFileRemoveBomTool extends AbstractTextFileTool {
 	}
 
 	@Override
-	protected boolean checkParameters() {
-		return true;
-	}
-
-	@Override
 	protected void performActionOnFile(String actionName, File inputFile, File outputFile) throws Exception {
 		if ("removeBom".equals(actionName)) {
 			byte[] data = FileUtils.readFileToByteArray(inputFile);
