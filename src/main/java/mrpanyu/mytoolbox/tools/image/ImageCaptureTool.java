@@ -59,6 +59,7 @@ public class ImageCaptureTool extends Tool implements ClipboardOwner {
 					return;
 				}
 			}
+			// 截图前隐藏主窗口
 			MyToolBox.instance.setVisible(false);
 			try {
 				Thread.sleep(300);
