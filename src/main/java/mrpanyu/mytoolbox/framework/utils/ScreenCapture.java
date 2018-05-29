@@ -3,6 +3,7 @@ package mrpanyu.mytoolbox.framework.utils;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
@@ -16,6 +17,8 @@ import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+
+import mrpanyu.mytoolbox.framework.MyToolBox;
 
 public class ScreenCapture {
 
@@ -74,10 +77,15 @@ public class ScreenCapture {
 					Graphics g = img.getGraphics();
 					g.drawImage(capturedImage, 0, 0, null);
 					g.setColor(Color.RED);
-					g.drawLine(startX, startY, endX, startY);
-					g.drawLine(startX, endY, endX, endY);
-					g.drawLine(startX, startY, startX, endY);
-					g.drawLine(endX, startY, endX, endY);
+					if (startX < 0) {
+						g.setFont(new Font("", Font.BOLD, (int) (16 * MyToolBox.VIEW_SCALE)));
+						g.drawString("左键单击开始截屏，右键取消", endX + 15, endY + 15);
+					} else {
+						g.drawLine(startX, startY, endX, startY);
+						g.drawLine(startX, endY, endX, endY);
+						g.drawLine(startX, startY, startX, endY);
+						g.drawLine(endX, startY, endX, endY);
+					}
 					imageLabel.setIcon(new ImageIcon(img));
 				}
 			});
@@ -128,9 +136,6 @@ public class ScreenCapture {
 		private class SCMouseMotionListener extends MouseMotionAdapter {
 			@Override
 			public void mouseMoved(MouseEvent e) {
-				if (startX < 0) {
-					return;
-				}
 				endX = e.getX();
 				endY = e.getY();
 				redrawImage();
