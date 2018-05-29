@@ -26,6 +26,7 @@ import mrpanyu.mytoolbox.framework.utils.FindClassesUtils;
 @SuppressWarnings("serial")
 public class MyToolBox extends JFrame {
 
+	public static final MyToolBox instance = new MyToolBox();
 	public static double VIEW_SCALE = 1.0;
 
 	private JList listTools;
@@ -105,8 +106,7 @@ public class MyToolBox extends JFrame {
 	}
 
 	public static void main(String[] args) {
-		MyToolBox mtb = new MyToolBox();
-		mtb.initialize();
+		instance.initialize();
 	}
 
 }
