@@ -18,8 +18,6 @@ import javax.swing.JSplitPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import org.apache.commons.lang.StringUtils;
-
 import mrpanyu.mytoolbox.framework.api.Tool;
 import mrpanyu.mytoolbox.framework.utils.FindClassesUtils;
 
