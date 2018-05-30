@@ -26,6 +26,7 @@ public class OcrTool extends Tool {
 	@Override
 	public void initialize() {
 		providerMap.put("百度", new BaiduOcrProvider());
+		providerMap.put("搜狗", new SougouOcrProvider());
 
 		// 初始化配置
 		setName("0602_ocr");
