@@ -102,7 +102,7 @@ public class FindClassesUtils {
 	}
 
 	public static void main(String[] args) {
-		Set<Class<?>> classes = findClasses("org.apache.commons.lang", true);
+		Set<Class<?>> classes = findClasses("org.apache.commons.lang3", true);
 		for (Class<?> cls : classes) {
 			System.out.println(cls.getName());
 		}

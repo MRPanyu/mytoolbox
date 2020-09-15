@@ -1,6 +1,6 @@
 package mrpanyu.mytoolbox.framework;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import mrpanyu.mytoolbox.framework.api.Action;
 import mrpanyu.mytoolbox.framework.api.Parameter;

@@ -37,8 +37,8 @@ import javax.swing.filechooser.FileFilter;
 import javax.swing.text.Element;
 import javax.swing.text.html.HTMLDocument;
 
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.StringEscapeUtils;
 
 import mrpanyu.mytoolbox.framework.api.Action;
 import mrpanyu.mytoolbox.framework.api.Parameter;
@@ -374,7 +374,7 @@ public class ToolPanel extends JPanel implements UserInterface {
 				int fontSize = (int) (13 * MyToolBox.VIEW_SCALE);
 				String divStart = "<div style=\"color:" + color
 						+ ";white-space:nowrap;font-family:Consolas,monospace;font-size:" + fontSize + "px\">";
-				String html = divStart + StringEscapeUtils.escapeHtml(message).replace("\r\n", "\n")
+				String html = divStart + StringEscapeUtils.escapeHtml4(message).replace("\r\n", "\n")
 						.replace("\n", "</div>" + divStart).replace("\t", "    ").replace(" ", "&nbsp;") + "</div>";
 				try {
 					HTMLDocument doc = (HTMLDocument) textOutput.getDocument();

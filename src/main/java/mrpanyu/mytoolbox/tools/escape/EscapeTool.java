@@ -5,7 +5,7 @@ import java.net.URLEncoder;
 import java.util.Arrays;
 
 import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.text.StringEscapeUtils;
 import org.apache.tools.ant.util.Native2AsciiUtils;
 
 import mrpanyu.mytoolbox.framework.api.Action;
@@ -52,13 +52,13 @@ public class EscapeTool extends Tool {
 				} else if ("URLDecode".equals(type)) {
 					escapeValue = URLDecoder.decode(value, "UTF-8");
 				} else if ("EscapeXML".equals(type)) {
-					escapeValue = StringEscapeUtils.escapeXml(value);
+					escapeValue = StringEscapeUtils.escapeXml10(value);
 				} else if ("UnescapeXML".equals(type)) {
 					escapeValue = StringEscapeUtils.unescapeXml(value);
 				} else if ("EscapeJavaScript".equals(type)) {
-					escapeValue = StringEscapeUtils.escapeJavaScript(value);
+					escapeValue = StringEscapeUtils.escapeEcmaScript(value);
 				} else if ("UnescapeJavaScript".equals(type)) {
-					escapeValue = StringEscapeUtils.unescapeJavaScript(value);
+					escapeValue = StringEscapeUtils.unescapeEcmaScript(value);
 				} else if ("Native2Ascii".equals(type)) {
 					StringBuilder sb = new StringBuilder();
 					for (String line : value.split("\n", -1)) {

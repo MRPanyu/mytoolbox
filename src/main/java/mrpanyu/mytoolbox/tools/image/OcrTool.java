@@ -9,7 +9,7 @@ import java.util.Map;
 import javax.imageio.ImageIO;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import mrpanyu.mytoolbox.framework.MyToolBox;
 import mrpanyu.mytoolbox.framework.api.Action;
@@ -26,6 +26,7 @@ public class OcrTool extends Tool {
 	@Override
 	public void initialize() {
 		providerMap.put("百度", new BaiduOcrProvider());
+		providerMap.put("百度通用票据(JSON)", new BaiduReceiptOcrProvider());
 		providerMap.put("搜狗", new SougouOcrProvider());
 
 		// 初始化配置
@@ -104,7 +105,11 @@ public class OcrTool extends Tool {
 			String provider = getParameter("provider").getValue();
 			OcrProvider ocrProvider = providerMap.get(provider);
 			String text = ocrProvider.callOcr(img);
-			getUserInterface().writeInfoMessage(text);
+			if (text.startsWith("<html>")) {
+				getUserInterface().writeHtmlMessage(text.substring(6));
+			} else {
+				getUserInterface().writeInfoMessage(text);
+			}
 			String outputFile = getParameter("outputFile").getValue();
 			if (StringUtils.isNotBlank(outputFile)) {
 				File out = new File(outputFile);

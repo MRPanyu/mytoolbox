@@ -6,7 +6,7 @@ import java.util.zip.CRC32;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import mrpanyu.mytoolbox.framework.api.Action;
 import mrpanyu.mytoolbox.framework.api.Parameter;

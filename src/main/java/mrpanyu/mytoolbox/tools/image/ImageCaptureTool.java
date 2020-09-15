@@ -10,7 +10,7 @@ import java.util.Arrays;
 
 import javax.imageio.ImageIO;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import mrpanyu.mytoolbox.framework.MyToolBox;
 import mrpanyu.mytoolbox.framework.api.Action;
