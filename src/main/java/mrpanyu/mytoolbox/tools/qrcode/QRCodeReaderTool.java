@@ -16,7 +16,7 @@ import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.qrcode.QRCodeReader;
 
-import mrpanyu.mytoolbox.framework.MyToolBox;
+import mrpanyu.mytoolbox.framework.MyToolBoxFrame;
 import mrpanyu.mytoolbox.framework.api.Action;
 import mrpanyu.mytoolbox.framework.api.Parameter;
 import mrpanyu.mytoolbox.framework.api.ParameterType;
@@ -84,7 +84,7 @@ public class QRCodeReaderTool extends Tool {
 			}
 		} else if ("capture".equals(actionName)) {
 			// 截图前隐藏主窗口
-			MyToolBox.instance.setVisible(false);
+			MyToolBoxFrame.instance.setVisible(false);
 			try {
 				Thread.sleep(300);
 			} catch (InterruptedException e1) {
@@ -92,13 +92,13 @@ public class QRCodeReaderTool extends Tool {
 			ScreenCapture.capture(new ScreenCaptureCallback() {
 				@Override
 				public void onCaptured(BufferedImage img) {
-					MyToolBox.instance.setVisible(true);
+					MyToolBoxFrame.instance.setVisible(true);
 					readQRCode(img);
 				}
 
 				@Override
 				public void onCancel() {
-					MyToolBox.instance.setVisible(true);
+					MyToolBoxFrame.instance.setVisible(true);
 				}
 			});
 		}

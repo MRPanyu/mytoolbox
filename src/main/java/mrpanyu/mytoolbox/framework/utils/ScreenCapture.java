@@ -18,7 +18,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-import mrpanyu.mytoolbox.framework.MyToolBox;
+import mrpanyu.mytoolbox.framework.MyToolBoxFrame;
 
 public class ScreenCapture {
 
@@ -78,7 +78,7 @@ public class ScreenCapture {
 					g.drawImage(capturedImage, 0, 0, null);
 					g.setColor(Color.RED);
 					if (startX < 0) {
-						g.setFont(new Font("", Font.BOLD, (int) (16 * MyToolBox.VIEW_SCALE)));
+						g.setFont(new Font("", Font.BOLD, (int) (16 * MyToolBoxFrame.VIEW_SCALE)));
 						g.drawString("左键单击开始截屏，右键取消", endX + 15, endY + 15);
 					} else {
 						g.drawLine(startX, startY, endX, startY);

@@ -3,12 +3,8 @@ package mrpanyu.mytoolbox.framework;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.lang.reflect.Modifier;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Set;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -19,48 +15,33 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import mrpanyu.mytoolbox.framework.api.Tool;
-import mrpanyu.mytoolbox.framework.utils.FindClassesUtils;
 
 @SuppressWarnings("serial")
-public class MyToolBox extends JFrame {
+public class MyToolBoxFrame extends JFrame {
 
-	public static final MyToolBox instance = new MyToolBox();
+	public static MyToolBoxFrame instance;
 	public static double VIEW_SCALE = 1.0;
 
 	private JList listTools;
 	private JPanel panelMain;
 	private List<Tool> tools = new ArrayList<Tool>();
 
+	public MyToolBoxFrame(List<Tool> tools) {
+		this.tools = tools;
+	}
+
 	public void initialize() {
 		try {
+			instance = this;
 			// 通过 -Dscale=1.0 参数可以调整整体缩放比例，如调整成1.5窗口和字体就是1.5倍大小
 			String scale = System.getProperty("scale");
 			if (scale != null) {
 				VIEW_SCALE = Double.parseDouble(scale);
 			}
-			findTools();
 			initializeComponents();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-
-	private void findTools() throws Exception {
-		Set<Class<?>> toolClasses = FindClassesUtils.findClassesByBaseClass("mrpanyu.mytoolbox.tools", true,
-				Tool.class);
-		for (Class<?> cls : toolClasses) {
-			if (Modifier.isAbstract(cls.getModifiers())) {
-				continue;
-			}
-			Tool tool = (Tool) cls.newInstance();
-			tool.initialize();
-			tools.add(tool);
-		}
-		Collections.sort(tools, new Comparator<Tool>() {
-			public int compare(Tool o1, Tool o2) {
-				return o1.getName().compareTo(o2.getName());
-			}
-		});
 	}
 
 	private void initializeComponents() throws Exception {
@@ -83,7 +64,7 @@ public class MyToolBox extends JFrame {
 					panelMain.removeAll();
 					ToolPanel toolPanel = new ToolPanel(tools.get(index));
 					panelMain.add(toolPanel, BorderLayout.CENTER);
-					MyToolBox.this.pack();
+					MyToolBoxFrame.this.pack();
 				}
 			}
 		});
@@ -101,10 +82,6 @@ public class MyToolBox extends JFrame {
 		this.setLocationByPlatform(false);
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
-	}
-
-	public static void main(String[] args) {
-		instance.initialize();
 	}
 
 }

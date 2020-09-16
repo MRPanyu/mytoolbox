@@ -12,7 +12,7 @@ import javax.imageio.ImageIO;
 
 import org.apache.commons.lang3.StringUtils;
 
-import mrpanyu.mytoolbox.framework.MyToolBox;
+import mrpanyu.mytoolbox.framework.MyToolBoxFrame;
 import mrpanyu.mytoolbox.framework.api.Action;
 import mrpanyu.mytoolbox.framework.api.Parameter;
 import mrpanyu.mytoolbox.framework.api.ParameterType;
@@ -60,7 +60,7 @@ public class ImageCaptureTool extends Tool implements ClipboardOwner {
 				}
 			}
 			// 截图前隐藏主窗口
-			MyToolBox.instance.setVisible(false);
+			MyToolBoxFrame.instance.setVisible(false);
 			try {
 				Thread.sleep(300);
 			} catch (InterruptedException e1) {
@@ -68,7 +68,7 @@ public class ImageCaptureTool extends Tool implements ClipboardOwner {
 			ScreenCapture.capture(new ScreenCaptureCallback() {
 				@Override
 				public void onCaptured(BufferedImage img) {
-					MyToolBox.instance.setVisible(true);
+					MyToolBoxFrame.instance.setVisible(true);
 					try {
 						if ("文件".equals(saveType)) {
 							File f = new File(file);
@@ -88,7 +88,7 @@ public class ImageCaptureTool extends Tool implements ClipboardOwner {
 
 				@Override
 				public void onCancel() {
-					MyToolBox.instance.setVisible(true);
+					MyToolBoxFrame.instance.setVisible(true);
 				}
 			});
 		}

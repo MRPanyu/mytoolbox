@@ -11,7 +11,7 @@ import javax.imageio.ImageIO;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import mrpanyu.mytoolbox.framework.MyToolBox;
+import mrpanyu.mytoolbox.framework.MyToolBoxFrame;
 import mrpanyu.mytoolbox.framework.api.Action;
 import mrpanyu.mytoolbox.framework.api.Parameter;
 import mrpanyu.mytoolbox.framework.api.ParameterType;
@@ -80,7 +80,7 @@ public class OcrTool extends Tool {
 			}
 		} else if ("capture".equals(actionName)) {
 			// 截图前隐藏主窗口
-			MyToolBox.instance.setVisible(false);
+			MyToolBoxFrame.instance.setVisible(false);
 			try {
 				Thread.sleep(300);
 			} catch (InterruptedException e1) {
@@ -88,13 +88,13 @@ public class OcrTool extends Tool {
 			ScreenCapture.capture(new ScreenCaptureCallback() {
 				@Override
 				public void onCaptured(BufferedImage img) {
-					MyToolBox.instance.setVisible(true);
+					MyToolBoxFrame.instance.setVisible(true);
 					callOcr(img);
 				}
 
 				@Override
 				public void onCancel() {
-					MyToolBox.instance.setVisible(true);
+					MyToolBoxFrame.instance.setVisible(true);
 				}
 			});
 		}

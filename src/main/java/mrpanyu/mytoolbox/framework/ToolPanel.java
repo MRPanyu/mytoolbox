@@ -49,8 +49,8 @@ import mrpanyu.mytoolbox.framework.api.UserInterface;
 @SuppressWarnings({ "serial", "rawtypes", "unchecked" })
 public class ToolPanel extends JPanel implements UserInterface {
 
-	private static int LINE_HEIGHT = (int) (25 * MyToolBox.VIEW_SCALE);
-	private static int LABEL_WIDTH = (int) (100 * MyToolBox.VIEW_SCALE);
+	private static int LINE_HEIGHT = (int) (25 * MyToolBoxFrame.VIEW_SCALE);
+	private static int LABEL_WIDTH = (int) (100 * MyToolBoxFrame.VIEW_SCALE);
 
 	private ImageIcon iconFolder = new ImageIcon(this.getClass().getResource("images/folder.png"));
 	private ImageIcon iconFloppy = new ImageIcon(this.getClass().getResource("images/floppy.png"));
@@ -73,7 +73,7 @@ public class ToolPanel extends JPanel implements UserInterface {
 	}
 
 	public void initialize() {
-		int imageSize = (int) (16 * MyToolBox.VIEW_SCALE);
+		int imageSize = (int) (16 * MyToolBoxFrame.VIEW_SCALE);
 		iconFolder.setImage(iconFolder.getImage().getScaledInstance(imageSize, imageSize, Image.SCALE_SMOOTH));
 		iconFloppy.setImage(iconFloppy.getImage().getScaledInstance(imageSize, imageSize, Image.SCALE_SMOOTH));
 		iconTrash.setImage(iconTrash.getImage().getScaledInstance(imageSize, imageSize, Image.SCALE_SMOOTH));
@@ -86,8 +86,8 @@ public class ToolPanel extends JPanel implements UserInterface {
 		panelTop.setLayout(new BoxLayout(panelTop, BoxLayout.Y_AXIS));
 		this.add(panelTop, BorderLayout.NORTH);
 
-		Font normalFont = new Font("", 0, (int) (13 * MyToolBox.VIEW_SCALE));
-		Font boldFont = new Font("", Font.BOLD, (int) (13 * MyToolBox.VIEW_SCALE));
+		Font normalFont = new Font("", 0, (int) (13 * MyToolBoxFrame.VIEW_SCALE));
+		Font boldFont = new Font("", Font.BOLD, (int) (13 * MyToolBoxFrame.VIEW_SCALE));
 
 		// initialize profile
 		if (tool.isEnableProfile()) {
@@ -372,7 +372,7 @@ public class ToolPanel extends JPanel implements UserInterface {
 	private void writeMessage(final String message, final String color) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				int fontSize = (int) (13 * MyToolBox.VIEW_SCALE);
+				int fontSize = (int) (13 * MyToolBoxFrame.VIEW_SCALE);
 				String divStart = "<div style=\"color:" + color
 						+ ";white-space:nowrap;font-family:Consolas,monospace;font-size:" + fontSize + "px\">";
 				String html = divStart
@@ -454,8 +454,8 @@ public class ToolPanel extends JPanel implements UserInterface {
 		textHelp.setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
 		textHelp.setText(helpContent);
 		JScrollPane scrollPane = new JScrollPane(textHelp);
-		int width = (int) (800 * MyToolBox.VIEW_SCALE);
-		int height = (int) (600 * MyToolBox.VIEW_SCALE);
+		int width = (int) (800 * MyToolBoxFrame.VIEW_SCALE);
+		int height = (int) (600 * MyToolBoxFrame.VIEW_SCALE);
 		scrollPane.setPreferredSize(new Dimension(width, height));
 		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
