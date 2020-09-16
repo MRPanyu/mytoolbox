@@ -344,12 +344,13 @@ public class ToolPanel extends JPanel implements UserInterface {
 				JComponent component = parameterComponentMap.get(name);
 				Parameter parameter = tool.getParameter(name);
 				if (component instanceof JComboBox) {
+					String parameterValue = parameter.getValue();
 					JComboBox combo = (JComboBox) component;
 					combo.removeAllItems();
 					for (String value : parameter.getEnumerationValues()) {
 						combo.addItem(value);
 					}
-					combo.setSelectedItem(parameter.getValue());
+					combo.setSelectedItem(parameterValue);
 				} else if (component instanceof JTextArea) {
 					JTextArea text = (JTextArea) component;
 					text.setText(parameter.getValue());
@@ -374,8 +375,10 @@ public class ToolPanel extends JPanel implements UserInterface {
 				int fontSize = (int) (13 * MyToolBox.VIEW_SCALE);
 				String divStart = "<div style=\"color:" + color
 						+ ";white-space:nowrap;font-family:Consolas,monospace;font-size:" + fontSize + "px\">";
-				String html = divStart + StringEscapeUtils.escapeHtml4(message).replace("\r\n", "\n")
-						.replace("\n", "</div>" + divStart).replace("\t", "    ").replace(" ", "&nbsp;") + "</div>";
+				String html = divStart
+						+ StringEscapeUtils.escapeHtml4(message).replace("\r\n", "\n")
+								.replace("\n", "</div>" + divStart).replace("\t", "    ").replace(" ", "&nbsp;")
+						+ "</div>";
 				try {
 					HTMLDocument doc = (HTMLDocument) textOutput.getDocument();
 					Element body = doc.getElement("body");

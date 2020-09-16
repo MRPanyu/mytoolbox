@@ -10,3 +10,4 @@
 .settings
 bin
 target
+.mtb*
