@@ -83,7 +83,10 @@ public class FindClassesUtils {
 			JarEntry entry = entries.nextElement();
 			String entryName = entry.getName();
 			if (entryName.endsWith(".class") && !entry.isDirectory()) {
-				String entryPackageName = entryName.substring(0, entryName.lastIndexOf('/')).replace('/', '.');
+				String entryPackageName = "";
+				if (entryName.indexOf("/") > 0) {
+					entryPackageName = entryName.substring(0, entryName.lastIndexOf('/')).replace('/', '.');
+				}
 				if ((recursive && entryPackageName.startsWith(packageName)) || entryPackageName.equals(packageName)) {
 					String classShortName = entryName.substring(entryName.lastIndexOf('/') + 1, entryName.length() - 6);
 					String className = entryPackageName + "." + classShortName;
