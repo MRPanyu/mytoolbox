@@ -15,6 +15,8 @@ import mrpanyu.mytoolbox.framework.api.Tool;
 import mrpanyu.mytoolbox.framework.api.UserInterface;
 import mrpanyu.mytoolbox.tools.dbexport.exporter.BinaryDataDbExporter;
 import mrpanyu.mytoolbox.tools.dbexport.exporter.DbExporter;
+import mrpanyu.mytoolbox.tools.dbexport.exporter.MysqlSqlDbExporter;
+import mrpanyu.mytoolbox.tools.dbexport.exporter.OracleSqlDbExporter;
 import mrpanyu.mytoolbox.tools.dbexport.model.TableExportCondition;
 import mrpanyu.mytoolbox.tools.dbexport.utils.DbExportUtils;
 
@@ -24,6 +26,8 @@ public class DbExportTool extends Tool {
 
 	public DbExportTool() {
 		exporterMap.put("序列化数据文件", BinaryDataDbExporter.class);
+		exporterMap.put("SQL INSERT语句 - Oracle格式", OracleSqlDbExporter.class);
+		exporterMap.put("SQL INSERT语句 - Mysql格式", MysqlSqlDbExporter.class);
 	}
 
 	@Override
