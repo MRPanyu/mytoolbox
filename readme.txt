@@ -10,7 +10,11 @@
 
 预置的一些工具包括：
 
-0000_packager: 打包工具：增量打包
+0000_script: 自定义脚本执行
+	JSR233的一个简单包装，可以执行Groovy或Javascript（JDK8的Nashorn引擎，将来的JDK可能不支持了）。
+	Groovy脚本可以当简单的脚本计算器来使用
+
+0001_packager: 打包工具：增量打包
 	一个Java WEB工程/普通Java工厂按文件清单增量打包的工具
 	
 0101_textFileEndoding: 文本处理：中文编码转换

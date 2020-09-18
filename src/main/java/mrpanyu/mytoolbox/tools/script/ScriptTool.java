@@ -16,7 +16,7 @@ public class ScriptTool extends Tool {
 	@Override
 	public void initialize() {
 		// 初始化配置
-		setName("!00_script");
+		setName("0000_script");
 		setDisplayName("自定义脚本执行");
 		setDescription("自定义脚本执行工具");
 		setEnableProfile(true);
