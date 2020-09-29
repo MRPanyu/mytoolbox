@@ -82,6 +82,7 @@ public class MyToolBoxFrame extends JFrame {
 		this.setLocationByPlatform(false);
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
+		listTools.setSelectedIndex(0);
 	}
 
 }

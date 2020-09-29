@@ -17,8 +17,8 @@ public class ScriptTool extends Tool {
 	public void initialize() {
 		// 初始化配置
 		setName("0000_script");
-		setDisplayName("自定义脚本执行");
-		setDescription("自定义脚本执行工具");
+		setDisplayName("脚本计算器");
+		setDescription("执行自定义脚本，可当作计算器使用");
 		setEnableProfile(true);
 		// 初始化参数
 		Parameter param = new Parameter("engine", "脚本引擎");

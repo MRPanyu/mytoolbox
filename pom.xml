@@ -71,6 +71,11 @@
 			<artifactId>ojdbc8</artifactId>
 			<version>12.2.0.1</version>
 		</dependency>
+		<dependency>
+			<groupId>org.tmatesoft.svnkit</groupId>
+			<artifactId>svnkit</artifactId>
+			<version>1.10.1</version>
+		</dependency>
 	</dependencies>
 
 	<build>
