@@ -21,7 +21,7 @@ public class RandomCodeTool extends Tool {
 		Parameter param = new Parameter("type", "号码类型");
 		param.setDescription("号码类型");
 		param.setType(ParameterType.ENUMERATION);
-		param.setEnumerationValues(Arrays.asList("社会统一信用证号", "组织机构证号", "行政区划号码", "工商营业执照号"));
+		param.setEnumerationValues(Arrays.asList("社会统一信用证号", "组织机构证号", "行政区划号码", "工商营业执照号", "VIN码"));
 		addParameter(param);
 		param = new Parameter("num", "数量");
 		param.setDescription("生成个数");
@@ -51,6 +51,8 @@ public class RandomCodeTool extends Tool {
 					getUserInterface().writeInfoMessage(generateLocationCode());
 				} else if ("工商营业执照号".equals(type)) {
 					getUserInterface().writeInfoMessage(generateIacLicenseCode());
+				} else if ("VIN码".equals(type)) {
+					getUserInterface().writeInfoMessage(generateVinNo());
 				}
 			}
 		}
@@ -170,6 +172,83 @@ public class RandomCodeTool extends Tool {
 			c15 = 0;
 		}
 		sb.append(c15);
+		return sb.toString();
+	}
+
+	public String generateVinNo() {
+		StringBuilder sb = new StringBuilder();
+		Random rand = new Random();
+
+		// 所有字母数字，除IOQ以外
+		char[] alphaNumArr = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E',
+				'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
+		// 上述字母数字表示的校验值
+		int[] alphaNumValueArr = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 7, 9,
+				2, 3, 4, 5, 6, 7, 8, 9 };
+		// 17位各自的权重
+		int[] weightArr = new int[] { 8, 7, 6, 5, 4, 3, 2, 10, 0, 9, 8, 7, 6, 5, 4, 3, 2 };
+		// 仅数字
+		char[] numArr = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+		// 可表示国家的字符
+		char[] nationArr = new char[] { '1', '2', '3', '4', '6', '9', 'J', 'K', 'L', 'R', 'S', 'T', 'V', 'W', 'Y',
+				'Z' };
+		// 可表示厂商的字符
+		char[] makerArr = new char[] { '1', '2', '3', '4', '5', '6', '7', '8', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
+				'L', 'M', 'P', 'S', 'T' };
+		// 可表示年份的字符
+		char[] yearArr = new char[] { '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G',
+				'H', 'J', 'K', 'L', 'M', 'N', 'P', 'R', 'S', 'T', 'V', 'W', 'X', 'Y' };
+
+		// 第1位：国家
+		int r = rand.nextInt(nationArr.length);
+		sb.append(nationArr[r]);
+		// 第2位：厂商
+		r = rand.nextInt(makerArr.length);
+		sb.append(makerArr[r]);
+		// 第3位：厂商车系
+		r = rand.nextInt(alphaNumArr.length);
+		sb.append(alphaNumArr[r]);
+		// 第4-8位：厂商车辆描述
+		for (int i = 0; i < 5; i++) {
+			r = rand.nextInt(alphaNumArr.length);
+			sb.append(alphaNumArr[r]);
+		}
+		// 第9位：校验码，后面再计算
+		sb.append("0");
+		// 第10位：年份
+		r = rand.nextInt(yearArr.length);
+		sb.append(yearArr[r]);
+		// 第11位：装配厂
+		r = rand.nextInt(alphaNumArr.length);
+		sb.append(alphaNumArr[r]);
+		// 第12-17位：出厂序号，12-13位可以有字母，14-17位只能是数字
+		for (int i = 0; i < 2; i++) {
+			r = rand.nextInt(alphaNumArr.length);
+			sb.append(alphaNumArr[r]);
+		}
+		for (int i = 0; i < 4; i++) {
+			r = rand.nextInt(numArr.length);
+			sb.append(numArr[r]);
+		}
+
+		// 计算第9位校验码
+		int check = 0;
+		for (int i = 0; i < 17; i++) {
+			char c = sb.charAt(i);
+			int value = 0;
+			for (int j = 0; j < alphaNumArr.length; j++) {
+				if (c == alphaNumArr[j]) {
+					value = alphaNumValueArr[j];
+					break;
+				}
+			}
+			int weight = weightArr[i];
+			check += value * weight;
+		}
+		check = check % 11;
+		char checkChar = check == 10 ? 'X' : numArr[check];
+		sb.setCharAt(8, checkChar);
+
 		return sb.toString();
 	}
 
