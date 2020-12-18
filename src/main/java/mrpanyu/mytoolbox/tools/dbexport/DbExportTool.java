@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
@@ -70,9 +71,9 @@ public class DbExportTool extends Tool {
 
 		param = new Parameter("cond", "导出表及sql");
 		param.setDescription(
-				"导出的表名及对应的sql，按“表名:sql”格式。多个表之间分号隔开。<br/>例如：“SYS_USER:select * from SYS_USER;SYS_COMPANY:select * from SYS_COMPANY;” <br/>也可以不加sql部分，等同于“select * from 表名”，如 “SYS_USER;SYS_COMPANY”");
+				"导出的表名及对应的sql，按“表名:sql”格式。多个表之间分号隔开。<br/>例如：“SYS_USER:select * from SYS_USER;SYS_COMPANY:select * from SYS_COMPANY;” <br/>也可以不加sql部分，等同于“select * from 表名”，如 “SYS_USER;SYS_COMPANY”。<br/>另外只有表名的格式支持%通配符，如“SYS_%”表示导出所有SYS_开头的表。");
 		param.setType(ParameterType.MULTILINE_TEXT);
-		param.setValue("SYS_USER:select * from SYS_USER;\nSYS_COMPANY:select * from SYS_COMPANY;");
+		param.setValue("%");
 		addParameter(param);
 
 		// 初始化动作
@@ -121,13 +122,27 @@ public class DbExportTool extends Tool {
 			if (arrTs.length > 1) {
 				cond.setSql(StringUtils.trim(arrTs[1]));
 			}
-			try {
-				DbExportUtils.export(type, url, user, password, exportDir, cond, exporterClass, ui);
-			} catch (Exception e) {
-				ui.writeErrorMessage("导出表" + cond.getTable() + "错误：");
-				ui.writeErrorMessage(e.getClass().getName() + ": " + e.getMessage());
+			if (cond.getTable().contains("%")) { // 支持表名含通配符的
+				List<TableExportCondition> conds = DbExportUtils.generateConditionsByTableNameLike(type, url, user,
+						password, cond.getTable(), ui);
+				for (TableExportCondition c : conds) {
+					try {
+						DbExportUtils.export(type, url, user, password, exportDir, c, exporterClass, ui);
+					} catch (Exception e) {
+						ui.writeErrorMessage("导出表" + cond.getTable() + "错误：");
+						ui.writeErrorMessage(e.getClass().getName() + ": " + e.getMessage());
+					}
+				}
+			} else {
+				try {
+					DbExportUtils.export(type, url, user, password, exportDir, cond, exporterClass, ui);
+				} catch (Exception e) {
+					ui.writeErrorMessage("导出表" + cond.getTable() + "错误：");
+					ui.writeErrorMessage(e.getClass().getName() + ": " + e.getMessage());
+				}
 			}
 		}
+		ui.writeInfoMessage("导出已全部完成");
 	}
 
 	@Override

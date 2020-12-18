@@ -15,7 +15,7 @@ public class SplitJavaAndResourceFileTool extends Tool {
 
 	@Override
 	public void initialize() {
-		setName("0105_splitJavaAndResource");
+		setName("0106_splitJavaAndResource");
 		setDisplayName("文件处理：分离java/resource文件");
 		setDescription("用于将传统工程转化为Maven工程的过程中，将一个目录下混排的java和resource文件分拆开");
 		// 参数

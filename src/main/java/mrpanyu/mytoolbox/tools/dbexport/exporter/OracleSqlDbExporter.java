@@ -21,6 +21,9 @@ public class OracleSqlDbExporter extends DbExporter {
 		File f = new File(exportDir, table + ".sql");
 		writer = new PrintWriter(f, "UTF-8");
 
+		writer.println("set define off;");
+		writer.println();
+
 		StringBuilder sb = new StringBuilder();
 		sb.append("INSERT INTO ").append(table).append(" (");
 		for (ColumnMetaData cm : tableMetaData.getColumnMeta()) {
@@ -78,6 +81,8 @@ public class OracleSqlDbExporter extends DbExporter {
 
 	@Override
 	public void close() throws Exception {
+		writer.println();
+		writer.println("commit;");
 		if (writer != null) {
 			writer.close();
 		}
@@ -90,7 +95,6 @@ public class OracleSqlDbExporter extends DbExporter {
 			int endIndex = Math.min(beginIndex + 1000, str.length());
 			String part = str.substring(beginIndex, endIndex);
 			part = part.replace("'", "''");
-			part = part.replace("&", "'||'&'||'");
 			sb.append("'").append(part).append("'");
 			if (endIndex < str.length()) {
 				sb.append("||");

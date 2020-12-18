@@ -29,6 +29,12 @@
 0104_textFileLineCount: 文本处理：统计行数
 	对某个目录下的文件进行行数统计
 
+0105_combineTextFile：文件处理：文本文件合并
+	将一个目录下所有文件内容合并，适用于如一堆sql脚本整合到一起之类的场景
+	
+0106_splitJavaAndResource：文件处理：分离java/resource文件
+	用于传统项目转Maven项目时，将单一源码目录中的java文件和其他文件分离开
+
 0201_escape: 转义：URL/XML/JS文本转义
 	进行URL/XML/JS的转义/反转义
 
